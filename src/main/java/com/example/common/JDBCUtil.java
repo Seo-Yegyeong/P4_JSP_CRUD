@@ -11,7 +11,7 @@ public class JDBCUtil {
 	        con= DriverManager.getConnection("jdbc:mysql://walab.handong.edu:3306/p1_21900360","p1_21900360","taseC9Zagh");
 	    }catch(Exception e){
 	    	System.out.println(e);
-	    }  
+	    }
 	    return con;  
 	}  
 	

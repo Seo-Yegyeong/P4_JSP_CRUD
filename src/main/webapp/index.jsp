@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="Java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<jsp:forward page="posts.jsp" />
+<jsp:forward page="post_list.jsp" />
 
 </body>
 </html>

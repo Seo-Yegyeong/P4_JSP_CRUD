@@ -7,7 +7,7 @@
         <packaging>war</packaging>
       </options>
     </properties>
-    <root id="archive" name="P4_JSP_CRUD-1.0-SNAPSHOT.war">
+    <root id="archive" name="p1_21900360_1-1.0-SNAPSHOT.war">
       <element id="artifact" artifact-name="P4_JSP_CRUD:war exploded" />
     </root>
   </artifact>

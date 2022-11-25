@@ -1,5 +1,4 @@
 package com.example.bean;
-
 import java.util.Date;
 
 public class BoardVO { //data value object
@@ -9,6 +8,8 @@ public class BoardVO { //data value object
 	private String writer;
 	private String content;
 	private Date regdate;
+	private Date modidate;
+	private String photo;
 	private int cnt;
 	
 	public int getSeq() {
@@ -43,10 +44,23 @@ public class BoardVO { //data value object
 	public void setRegdate(Date regdate) {
 		this.regdate = regdate;
 	}
+	public Date getModidate() {return modidate;}
+
+	public void setModidate(Date modidate) { this.modidate = modidate;}
+
+	public String getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(String photo) {
+		this.photo = photo;
+	}
 	public int getCnt() {
 		return cnt;
 	}
 	public void setCnt(int cnt) {
 		this.cnt = cnt;
 	}
+
+
 }

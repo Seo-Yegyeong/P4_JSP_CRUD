@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@page language="Java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@page import="com.example.dao.BoardDAO, com.example.bean.BoardVO,java.util.*"%>
+<%@page import="com.example.dao.BoardDAO, com.example.bean.BoardVO, java.util.*"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
@@ -29,9 +29,9 @@
 }
 </style>
 <script>
-	function delete_ok(id){
+	function delete_ok(seq){
 		var a = confirm("정말로 삭제하겠습니까?");
-		if(a) location.href='deletepost.jsp?id=' + id;
+		if(a) location.href='deleteAction.jsp?seq=' + seq;
 	}
 </script>
 </head>
@@ -50,8 +50,10 @@
 	<th>Writer</th>
 	<th>Content</th>
 	<th>Regdate</th>
+	<th>Photo</th>
 	<th>Edit</th>
 	<th>Delete</th>
+
 </tr>
 <c:forEach items="${list}" var="u">
 	<tr>
@@ -61,11 +63,13 @@
 		<td>${u.getWriter()}</td>
 		<td>${u.getContent()}</td>
 		<td>${u.getRegdate()}</td>
-		<td><a href="editform.jsp?id=${u.getSeq()}">Edit</a></td>
+<%--		<c:if test="${u.getPhoto()!=null}" ><br/>${u.getPhoto()}</c:if>--%>
+		<td>${u.getPhoto()}</td>
+		<td><a href="editForm.jsp?id=${u.getSeq()}">Edit</a></td>
 		<td><a href="javascript:delete_ok('${u.getSeq()}')">Delete</a></td>
 	</tr>
 </c:forEach>
 </table>
-<br/><a href="addpostform.jsp">Add New Post</a>
+<br/><a href="addForm.jsp">Add New Post</a>
 </body>
 </html>

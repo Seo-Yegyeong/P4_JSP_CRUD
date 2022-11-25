@@ -11,40 +11,48 @@ import com.example.common.JDBCUtil;
 
 public class BoardDAO { //data access object
 	
-	Connection conn = null;
-	PreparedStatement stmt = null;
-	ResultSet rs = null;
+	static Connection conn = null;
+	static PreparedStatement stmt = null;
+	static ResultSet rs = null;
 
-	private final String BOARD_INSERT = "insert into BOARD (category, title, writer, content) values (?,?,?,?)";
-	private final String BOARD_UPDATE = "update BOARD set category=?, title=?, writer=?, content=? where seq=?";
-	private final String BOARD_DELETE = "delete from BOARD  where seq=?";
+	private final String BOARD_INSERT = "insert into BOARD (category, title, writer, content, photo) values (?,?,?,?,?);";
+	private final String BOARD_UPDATE = "update BOARD set category=?, title=?, writer=?, content=?, photo=? where seq=?";
+	private static final String BOARD_DELETE = "delete from BOARD  where seq=?";
 	private final String BOARD_GET = "select * from BOARD  where seq=?";
 	private final String BOARD_LIST = "select * from BOARD order by seq desc";
 
 	public int insertBoard(BoardVO vo) {
 		System.out.println("===> JDBC로 insertBoard() 기능 처리");
 		try {
+			System.out.println("===> JDBC로 insertBoard() 기능 처리");
+
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(BOARD_INSERT);
 			stmt.setString(1, vo.getCategory());
 			stmt.setString(2, vo.getTitle());
 			stmt.setString(3, vo.getWriter());
 			stmt.setString(4, vo.getContent());
+			stmt.setString(5, vo.getPhoto().toString());
+//			stmt.setString(5, "aaaaaa");
+//			if(vo.getFile().exists()){
+//				//db에 파일 올리기.
+//			}
 			stmt.executeUpdate();
 			return 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
 		return 0;
 	}
 
 	// 글 삭제
-	public void deleteBoard(BoardVO vo) {
+	public void deleteBoard(int seq) {
 		System.out.println("===> JDBC로 deleteBoard() 기능 처리");
 		try {
 			conn = JDBCUtil.getConnection();
 			stmt = conn.prepareStatement(BOARD_DELETE);
-			stmt.setInt(1, vo.getSeq());
+			stmt.setInt(1, seq);
 			stmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -59,7 +67,8 @@ public class BoardDAO { //data access object
 			stmt.setString(2, vo.getTitle());
 			stmt.setString(3, vo.getWriter());
 			stmt.setString(4, vo.getContent());
-			stmt.setInt(5, vo.getSeq());
+			stmt.setString(5, vo.getContent());
+			stmt.setInt(6, vo.getSeq());
 			
 			
 			System.out.println(vo.getCategory() + "-" + vo.getTitle() + "-" + vo.getWriter() + "-" + vo.getContent() + "-" + vo.getSeq());
@@ -86,6 +95,7 @@ public class BoardDAO { //data access object
 				one.setTitle(rs.getString("title"));
 				one.setWriter(rs.getString("writer"));
 				one.setContent(rs.getString("content"));
+				one.setPhoto(rs.getString("photo"));
 				one.setCnt(rs.getInt("cnt"));
 			}
 			rs.close();
@@ -105,10 +115,12 @@ public class BoardDAO { //data access object
 			while(rs.next()) {
 				BoardVO one = new BoardVO();
 				one.setSeq(rs.getInt("seq"));
+				one.setCategory(rs.getString("category"));
 				one.setTitle(rs.getString("title"));
 				one.setWriter(rs.getString("writer"));
 				one.setContent(rs.getString("content"));
 				one.setRegdate(rs.getDate("regdate"));
+				one.setPhoto(rs.getString("photo"));
 				one.setCnt(rs.getInt("cnt"));
 				list.add(one);
 			}
@@ -117,5 +129,24 @@ public class BoardDAO { //data access object
 			e.printStackTrace();
 		} 
 		return list;
+	}
+
+	public static String getPhotoFilename(int seq){
+		String filename = null;
+		try{
+			conn = JDBCUtil.getConnection();
+			stmt = conn.prepareStatement(BOARD_DELETE);
+			stmt.setInt(1, seq);
+			rs = stmt.executeQuery();
+			if(rs.next()){
+				filename = rs.getString("photo");
+			}
+			rs.close();
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
+		System.out.println("===> JDBC로 getPhotoFilename() 기능 처리");
+		return filename;
 	}
 }
